@@ -8,7 +8,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * 
+ * @field items is a List<Symptom> including distinct symptom ordered by name. Each symptom has his occurences number.
+ * 
+ */
+
 public class Symptoms{
+	
 	List<Symptom> items;
 
 	Symptoms(List<String> _symptoms) {
@@ -17,7 +24,7 @@ public class Symptoms{
 			// si !(symptom.name) crée le symptom sinon incremente occurence
 			boolean isSymptomAlready = false;
 			for (Symptom symptom : items) {
-				if (s.equals(symptom.name)) {
+				if (s.equals(symptom.getName())) {
 					symptom.occurences++;
 					isSymptomAlready = true;
 					break;
@@ -28,7 +35,7 @@ public class Symptoms{
 				this.items.add(symptom);
 			}
 		}
-		Collections.sort(items, new Sortbyname());
+		Collections.sort(items, new SymptomComparator());
 	}
 	
 	public void createResultOut() {
@@ -51,9 +58,9 @@ public class Symptoms{
 
 }
 
-class Sortbyname implements Comparator<Symptom> {
+class SymptomComparator implements Comparator<Symptom> {
     public int compare(Symptom a, Symptom b)
     {
-        return a.name.compareTo(b.name);
+        return a.getName().compareTo(b.getName());
     }
 }
