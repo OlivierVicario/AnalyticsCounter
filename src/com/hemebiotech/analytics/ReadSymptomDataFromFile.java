@@ -1,10 +1,9 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,32 +24,15 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	}
 	
 	@Override
-	public List<String> GetSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
-		
-		if (filepath != null) {
-			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
-				String line = reader.readLine();
-				
-				while (line != null) {
-					result.add(line);
-					line = reader.readLine();
-				}
-				reader.close();
-			} catch (EOFException e) {
-				//e.printStackTrace();
-				System.out.println("Erreur de fin de fichier : " + e.getMessage());
-			}catch (FileNotFoundException e) {
-				//e.printStackTrace();
-				System.out.println("Fichier non trouvé : " + e.getMessage());
-			}catch (IOException e) {
-				//e.printStackTrace();
-				System.out.println("Erreur d'entrée-sortie : " + e.getMessage());
-			}
-			
+	public List<String> getSymptoms() {
+		List<String> result = new ArrayList<String>();
+		//java 8 : récupérer la liste des éléments du fichier
+		try {
+			result  = Files.readAllLines(Paths.get(filepath),StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
 		return result;
 	}
 
